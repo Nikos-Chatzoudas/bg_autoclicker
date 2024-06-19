@@ -10,7 +10,7 @@ class ProcessSelector(QWidget):
         self.initUI()
 
     def initUI(self):
-        self.setWindowTitle('Select Process and Interaction')
+        self.setWindowTitle('Background Autoclicker')
         self.setGeometry(100, 100, 250, 250)
 
         self.label_process = QLabel('Select a process:', self)
