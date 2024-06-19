@@ -4,4 +4,4 @@ install Requirements here with this command in the cmd
 ```bash
 pip install PyQt5 pywin32
 ```
-run the requirements.bat file
+or run the requirements.bat file
