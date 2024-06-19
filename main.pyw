@@ -11,7 +11,7 @@ class ProcessSelector(QWidget):
 
     def initUI(self):
         self.setWindowTitle('Select Process and Interaction')
-        self.setGeometry(100, 100, 400, 250)
+        self.setGeometry(100, 100, 250, 250)
 
         self.label_process = QLabel('Select a process:', self)
         self.label_process.setAlignment(Qt.AlignCenter)
