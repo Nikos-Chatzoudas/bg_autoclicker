@@ -93,7 +93,7 @@ class ProcessSelector(QWidget):
     def start_spam_click(self):
         self.okButton.setEnabled(False)
         self.stopButton.setEnabled(True)
-        delay = int(self.delay_input.text()) if self.delay_input.text().isdigit() else 100  # Default delay 100 ms if input is invalid
+        delay = int(self.delay_input.text()) if self.delay_input.text().isdigit() else 100  
         self.timer.start(delay)
 
     def stop_spam_click(self):
@@ -110,17 +110,17 @@ class ProcessSelector(QWidget):
             y = int(self.y_coord.text()) if self.y_coord.text().isdigit() else 0
             click_type = win32con.WM_LBUTTONDOWN if self.left_click_radio.isChecked() else win32con.WM_RBUTTONDOWN
             self.run_interaction(hwnd, x, y, click_type)
-            self.run_interaction(hwnd, x, y, click_type + 1)  # Send button up immediately after button down
+            self.run_interaction(hwnd, x, y, click_type + 1)
 
     def run_interaction(self, hwnd, x, y, click_type):
         lParam = win32api.MAKELONG(x, y)
         
         # Send mouse button down message
         win32api.SendMessage(hwnd, click_type, win32con.MK_LBUTTON if click_type == win32con.WM_LBUTTONDOWN else win32con.MK_RBUTTON, lParam)
-        time.sleep(0.01)  # Optional small delay for visual effect or timing considerations
+        time.sleep(0.01) 
         
         # Send mouse button up message
-        win32api.SendMessage(hwnd, click_type + 1, 0, lParam)  # Use click_type + 1 for button up message (e.g., WM_LBUTTONUP or WM_RBUTTONUP)
+        win32api.SendMessage(hwnd, click_type + 1, 0, lParam) 
 
 
 if __name__ == '__main__':
