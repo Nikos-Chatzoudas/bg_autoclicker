@@ -14,13 +14,13 @@ class ProcessSelector(QWidget):
 
     def initUI(self):
         self.setWindowTitle('Background Autoclicker')
-        self.setGeometry(100, 100, 250, 250)
+        self.setGeometry(100, 100, 300, 300)
 
         self.label_process = QLabel('Select a process:', self)
         self.label_process.setAlignment(Qt.AlignCenter)
 
         self.comboBox = QComboBox(self)
-        self.comboBox.setGeometry(50, 50, 300, 30)
+        self.comboBox.setGeometry(50, 50, 200, 30)
 
         self.refreshButton = QPushButton('Refresh', self)
         self.refreshButton.clicked.connect(self.populate_processes)
