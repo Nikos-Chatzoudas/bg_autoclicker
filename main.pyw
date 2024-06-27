@@ -1,13 +1,16 @@
 import sys
 from PyQt5.QtWidgets import QApplication, QWidget, QVBoxLayout, QComboBox, QPushButton, QLabel, QLineEdit, QRadioButton, QHBoxLayout
-from PyQt5.QtCore import Qt, QTimer
-import win32gui, win32ui, win32con, win32api
+from PyQt5.QtCore import Qt, QTimer, QThread, pyqtSignal
+import win32gui, win32con, win32api
 import time
+import keyboard
 
 class ProcessSelector(QWidget):
     def __init__(self):
         super().__init__()
         self.initUI()
+        self.keyboard_listener = KeyboardListener(self)
+        self.keyboard_listener.start()
 
     def initUI(self):
         self.setWindowTitle('Background Autoclicker')
@@ -38,10 +41,10 @@ class ProcessSelector(QWidget):
         self.right_click_radio = QRadioButton('Right Click', self)
         self.left_click_radio.setChecked(True)
 
-        self.okButton = QPushButton('Start Spam Click', self)
+        self.okButton = QPushButton('Start (F4)', self)
         self.okButton.clicked.connect(self.start_spam_click)
 
-        self.stopButton = QPushButton('Stop', self)
+        self.stopButton = QPushButton('Stop (F5)', self)
         self.stopButton.clicked.connect(self.stop_spam_click)
         self.stopButton.setEnabled(False)
 
@@ -49,7 +52,7 @@ class ProcessSelector(QWidget):
         self.delay_label.setAlignment(Qt.AlignCenter)
 
         self.delay_input = QLineEdit(self)
-        self.delay_input.setPlaceholderText('Enter delay in milliseconds')
+        self.delay_input.setPlaceholderText('Enter delay in milliseconds (default is 100ms)')
 
         radio_layout = QHBoxLayout()
         radio_layout.addWidget(self.left_click_radio)
@@ -122,6 +125,19 @@ class ProcessSelector(QWidget):
         # Send mouse button up message
         win32api.SendMessage(hwnd, click_type + 1, 0, lParam) 
 
+class KeyboardListener(QThread):
+    trigger_start = pyqtSignal()
+    trigger_stop = pyqtSignal()
+
+    def __init__(self, parent=None):
+        super().__init__(parent)
+        self.trigger_start.connect(parent.start_spam_click)
+        self.trigger_stop.connect(parent.stop_spam_click)
+
+    def run(self):
+        keyboard.add_hotkey('f4', self.trigger_start.emit)
+        keyboard.add_hotkey('f5', self.trigger_stop.emit)
+        keyboard.wait()
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
