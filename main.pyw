@@ -14,7 +14,7 @@ class ProcessSelector(QWidget):
 
     def initUI(self):
         self.setWindowTitle('Background Autoclicker')
-        self.setGeometry(100, 100, 300, 300)
+        self.resize(300, 300)
 
         self.label_process = QLabel('Select a process:', self)
         self.label_process.setAlignment(Qt.AlignCenter)
